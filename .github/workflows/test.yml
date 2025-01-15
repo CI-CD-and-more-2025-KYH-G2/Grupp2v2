@@ -1,0 +1,30 @@
+name: Run Projekt Test
+on:
+  push:
+    branches: 
+    - main
+  pull_request:
+
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Set up .Net
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '9.0'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build the project
+        run: dotnet build --configuration Debug
+
+      - name: Run Unit Tests
+        run: dotnet test

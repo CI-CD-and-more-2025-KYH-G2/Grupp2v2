@@ -26,9 +26,6 @@ jobs:
       - name: Build the project
         run: dotnet build --configuration Debug
 
-      - name: Run Unit Tests
-        run: dotnet test
-
       - name: Extract Docker image metadata
         id: meta
         uses: docker/metadata-action@v5
