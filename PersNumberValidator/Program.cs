@@ -1,31 +1,112 @@
-﻿class Program
+﻿using System;
+
+namespace PersonalNumberValidatorApp
 {
-    static void Main(string[] args)
+    class Program
     {
-        // Skapa en instans av PersonalNumberValidator
-        PersonalNumberValidator validator = new PersonalNumberValidator();
-
-        while (true)
+        static void Main(string[] args)
         {
-            Console.Clear();
+            RunPersonalNumberValidator();
+        }
 
-            Console.Write("Skriv ett personnummer (eller tryck \"x\" för att avsluta): ");
-            string input = Console.ReadLine();
+        static void RunPersonalNumberValidator()
+        {
+            var validator = new PersonalNumberValidator();
 
-            if (input.ToLower() == "x")
+            while (true)
             {
-                Console.WriteLine("Programmet avslutas. Tack för att du använde personnummervalideraren!");
-                break;
+                Console.Clear();
+                DisplayWelcomeMessage();
+
+                string input = GetUserInput();
+
+                if (IsExitCommand(input))
+                {
+                    ExitProgram();
+                    break;
+                }
+
+                ValidateAndDisplayResult(input, validator);
+
+                PromptToContinue();
             }
-            // Validera personnumret med en enda metod
+        }
+
+        
+        /// Visar välkomstmeddelande med instruktioner.
+        
+        static void DisplayWelcomeMessage()
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("=======================================");
+            Console.WriteLine("  Välkommen till Personnummer Validerare");
+            Console.WriteLine("=======================================");
+            Console.ResetColor();
+            Console.WriteLine("Skriv ett personnummer i formatet ÅÅÅÅMMDDXXXX.");
+            Console.WriteLine("Skriv 'x' för att avsluta programmet.\n");
+        }
+
+        
+        /// Hämtar användarens inmatning.
+        
+        static string GetUserInput()
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("Ange personnummer: ");
+            Console.ResetColor();
+            return Console.ReadLine();
+        }
+
+        /// <summary>
+        /// Kontrollerar om användaren vill avsluta programmet.
+        /// </summary>
+        /// <param name="input">Användarens inmatning.</param>
+        /// <returns>True om användaren vill avsluta, annars false.</returns>
+        static bool IsExitCommand(string input)
+        {
+            return input.Trim().ToLower() == "x";
+        }
+
+        /// <summary>
+        /// Visar avslutningsmeddelande och avslutar programmet.
+        /// </summary>
+        static void ExitProgram()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\n=====================================");
+            Console.WriteLine(" Programmet avslutas. Tack för att du använde oss!");
+            Console.WriteLine("=====================================");
+            Console.ResetColor();
+        }
+
+        /// <summary>
+        /// Validerar personnumret och visar resultatet.
+        /// </summary>
+        /// <param name="input">Användarens inmatning.</param>
+        /// <param name="validator">Instans av PersonalNumberValidator.</param>
+        static void ValidateAndDisplayResult(string input, PersonalNumberValidator validator)
+        {
+            Console.WriteLine();  // Utrymme för bättre läsbarhet
+
             if (validator.ValidatePersonalNumber(input))
             {
-                Console.WriteLine("Personnumret är giltigt!");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("✅ Personnumret är giltigt!");
             }
             else
             {
-                Console.WriteLine("Ogiltigt personnummer!");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("❌ Ogiltigt personnummer!");
             }
+
+            Console.ResetColor();
+        }
+
+        /// <summary>
+        /// Ber användaren att trycka på en tangent för att fortsätta.
+        /// </summary>
+        static void PromptToContinue()
+        {
             Console.WriteLine("\nTryck på valfri tangent för att fortsätta...");
             Console.ReadKey();
         }
