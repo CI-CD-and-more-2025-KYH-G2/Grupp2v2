@@ -16,12 +16,15 @@ jobs:
       - name: Set up .Net
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '9.x'
+          dotnet-version: '9.0'
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: |
+            dotnet restore
+            echo '-----------------------------'
+            dotnet build
 
-      - name: Run Unit Tests
+      - name: Run Tests
         run: dotnet test
 
       - name: Extract Docker image metadata
