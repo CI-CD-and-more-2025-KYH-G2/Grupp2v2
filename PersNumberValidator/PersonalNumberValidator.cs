@@ -27,14 +27,16 @@ public class PersonalNumberValidator
         else
         {
             // För 10-siffriga personnummer, avgör sekel baserat på årtalet
+            int currentYear = DateTime.Now.Year % 100; 
             int year = int.Parse(persNumber.Substring(0, 2));
-            string century = year >= 20 ? "20" : "19"; // 20xx om år >= 20, annars 19xx
+            string century = year > currentYear ? "19" : "20"; // 19xx om år > nuvarande år, annars 20xx
             datePart = century + persNumber.Substring(0, 6);
         }
 
         // Kontrollera om datePart är ett giltigt datum i formatet yyyyMMdd
-        return DateTime.TryParseExact(datePart, "yyyyMMdd", null, DateTimeStyles.None, out _);
+        return DateTime.TryParseExact(datePart, "yyyyMMdd", null, System.Globalization.DateTimeStyles.None, out _);
     }
+
 
 
 
